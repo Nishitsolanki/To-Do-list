@@ -17,8 +17,8 @@ route.post('login', login)
 route.post('/todos',authentication, addTodo)
 route.get('/todos',authentication, getAllTodos);
 route.get('/todos/:id', authentication, toggleTodoDone);
-route.put('/todos/:id', updateTodo);
-route.delete('/todos/:id', deleteTodo);
+route.put('/todos/:id',authentication, updateTodo);
+route.delete('/todos/:id',authentication deleteTodo);
 
 
 export default route;
