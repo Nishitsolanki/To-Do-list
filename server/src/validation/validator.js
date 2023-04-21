@@ -31,12 +31,6 @@ let alphabetTestOfString = function (value) {
     return false;
 };
 
-const isValidSyntaxOfEmail = function (value) {
-    if (validator.validate(value.trim())) {
-        return true;
-    }
-    return false;
-};
 
 
 const isValidPassword = (password) => {
@@ -58,4 +52,4 @@ const isValidStatus = (status) => {
   
 
 
-module.exports = {isValidd , isValidStatus, isValid, isValidObjectIdd,isValidBody, alphabetTestOfString, isValidSyntaxOfEmail, isValidPassword, validateEmail, }
+module.exports = {isValidd , isValidStatus, isValid, isValidObjectIdd,isValidBody, alphabetTestOfString, isValidPassword, validateEmail, }

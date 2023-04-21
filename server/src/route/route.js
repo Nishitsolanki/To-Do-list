@@ -1,24 +1,32 @@
-import express, { Router } from 'express';
+const express =require("express")
+const router=express.Router()
+
+const{ addTodo, getAllTodos, toggleTodoDone, updateTodo, deleteTodo } = require('../controller/Todo-controller.js');
+const {createuser,login} = require('../controller/usercontroller.js')
+const { authentication } = require('../middleware/auth.js')
 
 
-import { addTodo, getAllTodos, toggleTodoDone, updateTodo, deleteTodo } from '../controller/Todo-controller.js';
-import { createuser,login } from '../controller/usercontroller.js';
-import {authentication} from '../middleware/auth.js'
 
-const route = express.Router();
+
+
+
 
 //user 
 
-route.post('/creat',createuser)
-route.post('login', login)
+router.post('/creat',createuser)
+router.post('login', login)
 
 
 //Todo
-route.post('/todos',authentication, addTodo)
-route.get('/todos',authentication, getAllTodos);
-route.get('/todos/:id', authentication, toggleTodoDone);
-route.put('/todos/:id',authentication, updateTodo);
-route.delete('/todos/:id',authentication, deleteTodo);
+router.post('/todos',authentication ,addTodo)
+router.get('/todos', getAllTodos);
+router.get('/todos/:id',  toggleTodoDone);
+router.put('/todos/:id', updateTodo);
+router.delete('/todos/:id', deleteTodo);
 
 
-export default route;
+router.all("/*", async function(req,res){
+    return res.status(400).send({status:false,message:"plz check url"})
+})
+
+module.exports=router;

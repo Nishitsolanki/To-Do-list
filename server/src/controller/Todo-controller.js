@@ -1,7 +1,15 @@
-import Todo from '../model/Todo.js';
+const Todo = require('../model/Todo')
 
-export const addTodo = async (req, res) => {
+ const addTodo = async (req, res) => {
     try {
+
+        if(!title) return res.status(400).send({status:false,message:"title is required"})
+
+        if(!description) return res.status(400).send({status:false,message:"description is required"})
+
+     
+
+
         const newTodo = await Todo.create({
 
             data: req.body.data,
@@ -16,7 +24,7 @@ export const addTodo = async (req, res) => {
     }
 }
 
-export const getAllTodos = async (req, res) => {
+ const getAllTodos = async (req, res) => {
     try {
         const todos = await Todo.find({}).sort({ 'createdAt': -1 })
 
@@ -26,7 +34,7 @@ export const getAllTodos = async (req, res) => {
     }
 }
 
-export const toggleTodoDone = async (req, res) => {
+ const toggleTodoDone = async (req, res) => {
     try {
         const todoRef = await Todo.findById(req.params.id);
 
@@ -43,8 +51,10 @@ export const toggleTodoDone = async (req, res) => {
     }
 }
 
-export const updateTodo = async (req, res) => {
+ const updateTodo = async (req, res) => {
     try {
+
+        if(req.body.status =='done'||req.body.status =='pending'|| req.body.status =='progress'|| req.body.status =='completed')
         await Todo.findOneAndUpdate(
             { _id: req.params.id },
             { data: req.body.data }
@@ -58,7 +68,7 @@ export const updateTodo = async (req, res) => {
     }
 }
 
-export const deleteTodo = async (req, res) => {
+ const deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.findByIdAndDelete(req.params.id)
 
@@ -67,3 +77,5 @@ export const deleteTodo = async (req, res) => {
         return res.status(500).json(error.message);
     }
 }
+
+module.exports = {addTodo, getAllTodos, toggleTodoDone, updateTodo, deleteTodo}

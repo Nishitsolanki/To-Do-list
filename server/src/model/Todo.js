@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 
 
@@ -13,8 +13,9 @@ const TodoSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['done', 'pending', 'in progress', 'completed'],
-    default: 'pending'
+    enum: ['done', 'pending', 'progress', 'completed'],
+    default :"pending"
+    
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +29,5 @@ const TodoSchema = new mongoose.Schema({
  
 });
 
-const todo = mongoose.model('Todo',TodoSchema)
+module.exports = mongoose.model('Todo',TodoSchema)
 
-export default todo

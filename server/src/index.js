@@ -1,80 +1,22 @@
-const express = require('express');
-const route = require('./route/route');
-const mongoose = require('mongoose');
-const app = express();
-
-app.use(express.json());
 
 
-mongoose.connect("mongodb+srv://nisitsolanki:9978793231@cluster0.te1decq.mongodb.net/To-Do", {
-    useNewUrlParser: true
-})
+const express=require('express')
+const bodyParser = require('body-parser');
+const Route  = require ('./route/route')
+const { default: mongoose } = require('mongoose')
 
-    .then(() => console.log("MongoDb is connected.........."))
-    .catch(err => console.log(err))
+const app= express()
 
-app.use('/', route);
-
-app.listen(3001,()=>{
-console.log("Express app running "+ 3001)  })
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const mongoose = require('mongoose');
+mongoose.connect("mongodb+srv://nisitsolanki:9978793231@cluster0.te1decq.mongodb.net/To-Do", {useNewUrlParser:true})
+.then(()=> console.log("MongoDb is connected"))
+.catch(err => console.log(err))
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+app.use('/',Route)
+
+app.listen(process.env.PORT || 3002, function () {
+    console.log('Express app running on port ' + (process.env.PORT || 3002))
 });
-
-const taskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    enum: ['done', 'pending', 'in progress', 'completed'],
-    default: 'pending'
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-const User = mongoose.model('User', userSchema);
-const Task = mongoose.model('Task', taskSchema);
-
-module.exports = { User, Task };
